@@ -1,4 +1,4 @@
 ﻿  Lapka5.cpp
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(30): warning C4018: >: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(124): warning C4101: val: неиспользованная локальная переменная
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(33): warning C4018: >: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(127): warning C4101: val: неиспользованная локальная переменная
   Lapka5.vcxproj -> C:\Users\mi\Documents\GitHub\ASD\Lapka5\Debug\Lapka5.exe

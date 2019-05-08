@@ -1,19 +1,22 @@
 #pragma once
-#include <map>
+//#include <map>
 #include <list>
+#include <unordered_map>
 #include <iostream>
 #include <algorithm>
 
-using std::map;
+//using std::map;
+using std::unordered_map;
 using std::list;
 using std::find;
 using std::advance;
+using std::sort;
 
 
 class HashTable
 {
 private:
-	map<int, int> values;
+	unordered_map<int, int> values;
 
 	int hashfunc(int key) const
 	{
@@ -168,6 +171,8 @@ public:
 		int sizeB = B.size();
 		int bothsize = sizeA + sizeB;
 		//std::cout << sizeA << sizeB << "!!!!!!!!!!!!!!!!!!!!!";
+		//sort(A.values.cbegin(), A.values.cend());
+		//sort(B.values.cbegin(), B.values.cend());
 		for (int i = 0; i < sizeA - 1; ++i) {
 			for (int j = 0; j < sizeA - i - 1; ++j) {
 				if (A.values[j] > A.values[j + 1]) {
@@ -237,6 +242,12 @@ public:
 			}
 		}
 	}
+	
+	void erase(int start, int end) {
+		for (int i = start; i < end; ++i)
+			delete_element(start);
+	}
+
 
 	void add(int value)
 	{
@@ -249,12 +260,12 @@ public:
 		return int(values.size());
 	}
 
-	map<int, int>::const_iterator begin()
+	unordered_map<int, int>::const_iterator begin()
 	{
 		return values.begin();
 	}
 
-	map<int, int>::const_iterator end()
+	unordered_map<int, int>::const_iterator end()
 	{
 		return values.end();
 	}

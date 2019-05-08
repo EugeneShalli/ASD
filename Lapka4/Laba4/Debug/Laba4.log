@@ -1,3 +1,4 @@
-﻿  Laba4.cpp
-c:\users\mi\source\repos\laba4\laba4\laba4.cpp(66): warning C4129: : неизвестная escape-последовательность
-  Laba4.vcxproj -> C:\Users\mi\source\repos\Laba4\Debug\Laba4.exe
+﻿  pch.cpp
+  Laba4.cpp
+c:\users\mi\documents\github\asd\lapka4\laba4\laba4.cpp(66): warning C4129: : неизвестная escape-последовательность
+  Laba4.vcxproj -> C:\Users\mi\Documents\GitHub\ASD\Lapka4\Debug\Laba4.exe
