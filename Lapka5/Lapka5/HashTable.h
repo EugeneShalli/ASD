@@ -4,28 +4,37 @@
 #include <unordered_map>
 #include <iostream>
 #include <algorithm>
+#include<vector>
 
 //using std::map;
+using namespace std;
 using std::unordered_map;
 using std::list;
 using std::find;
 using std::advance;
 using std::sort;
+using std::vector;
+using std::max;
+const int alphabet = 26;
 
 
 class HashTable
 {
 private:
-	unordered_map<int, int> values;
+	
+
 
 	int hashfunc(int key) const
 	{
 		return key % 1000;
 	}
 
+	
+
 	void clear()
 	{
 		values.clear();
+		sequence.clear();
 	}
 
 	int index_operator(int index) const
@@ -35,41 +44,160 @@ private:
 			return values.at(index);
 		}
 		throw;
+		//return NULL;
 	}
 
 	void delete_element(int index)
 	{
-		for (int i = index; i < size() - 1; ++i)
-			values[i] = values[i + 1];
+		//for (int i = index; i < size() - 1; ++i)
+			//values[i] = values[i + 1];
 
-		values.erase(size() - 1);
+		values.erase(index);
 	}
 
 public:
+	unordered_map<int, char> values;
+	vector<int> sequence;
+	//vector<int> sequence;
 
 	HashTable() {}
 
-	HashTable(int size, int maxValue)
-	{
-		maxValue++;
-
-		for (int i = 0; i < size; ++i)
-			add(rand() % maxValue);
+	explicit HashTable(int size) {
+		//maxValue++;
+		int k = 0;
+		int i = 0;
+		vector<int>::iterator it;
+		while (k < size) {
+			if (i == alphabet) {
+				i = 0;
+			}
+			it = find(sequence.begin(), sequence.end(), i);
+			if (rand() % 2 && it == sequence.end() /*&& *(sequence.end()) != i*/) {
+				add(i);
+				sequence.push_back(i);
+				k++;
+			}
+			i++;
+			//k++;
+		}
 	}
 
-	HashTable(const HashTable& H)
+	//HashTable(HashTable&& H) /*: values(H.values), sequence(H.sequence)*/{
+	//	values = H.values;
+	//	sequence = H.sequence;
+	//}
+
+	void DisplayHashTable(HashTable&& table)
 	{
+		for (int i = 0; i < table.size(); ++i)
+		{
+			cout.width(3);
+			cout << table[i];
+		}
+		cout << endl;
+	}
+
+	HashTable(const HashTable& H) {
+	
 		values = H.values;
+		sequence = H.sequence;
 	}
 
-	HashTable(HashTable&& H)
-	{
-		values = H.values;
+	HashTable(HashTable& H) {
+		clear();
+	
+		for (int i = 0; i < H.sequence.size(); ++i) {
+			add(H.sequence.at(i));
+			sequence.push_back(H.sequence.at(i));
+		}
 	}
+
+	//HashTable(HashTable&& H)
+	//{
+	//	values = H.values;
+	//}
 
 	~HashTable()
 	{
 		clear();
+	}
+
+	HashTable operator|(const HashTable& B) {
+		HashTable C(*this);
+		return C |= B;
+	}
+
+	HashTable& operator|=(const HashTable& B) {
+		HashTable C(*this);
+
+		for (int i = 0; i < B.sequence.size(); ++i) {
+			if (find(C.sequence.begin(), C.sequence.end(), B.sequence.at(i)) == C.sequence.end()) {
+				add(B.sequence.at(i));
+				sequence.push_back(B.sequence.at(i));
+			}
+		}
+
+		return *this;
+	}
+
+	HashTable operator&(const HashTable& B) {
+		HashTable C(*this);
+		return C &= B;
+	}
+
+	HashTable& operator&=(const HashTable& B) {
+		for (int i = 0; i < sequence.size(); ++i) {
+			if (find(B.sequence.begin(), B.sequence.end(), sequence.at(i)) == B.sequence.end()) {
+				delete_element(sequence.at(i));
+				sequence.erase(find(sequence.begin(), sequence.end(), sequence.at(i)));
+				i--;
+			}
+		}
+		return *this;
+	}
+
+	HashTable operator-(const HashTable& B)
+	{
+		HashTable C(*this);
+		return C -= B;
+	}
+
+	HashTable& operator-=(const HashTable& B)
+	{
+
+		for (int i = 0; i < B.sequence.size(); ++i) {
+			if (find(sequence.begin(), sequence.end(), B.sequence.at(i)) != sequence.end()) {
+				delete_element(B.sequence.at(i));
+				sequence.erase(find(sequence.begin(), sequence.end(), B.sequence.at(i)));
+				i--;
+			}
+		}
+
+		return *this;
+	}
+
+	HashTable operator+(const HashTable& B)
+	{
+		HashTable C(*this);
+		return C += B;
+	}
+
+	HashTable& operator+=(const HashTable& B)
+	{
+		HashTable B1(B);
+		HashTable C(*this - B);
+		HashTable A(B1 - *this);
+		//HashTable A1(*this);
+		//HashTable B1(B);
+		//A = A & B1;
+		//B1 = B1 - A;
+		//HashTable A1(C - B);
+		//HashTable A2(B1 - A);
+		//*this = A1|A2;
+		//*this = *this | B;
+		*this = C | A;
+
+		return *this;
 	}
 
 	HashTable& operator=(const HashTable& H)
@@ -89,7 +217,7 @@ public:
 		if (this != &H)
 		{
 			clear();
-
+			sequence = H.sequence;
 			values = H.values;
 		}
 
@@ -121,33 +249,13 @@ public:
 	}
 
 	void subst(HashTable H, int position) {
-		int start = 0;
-		int k = 0;
-		int prev_size = size();
-		int val;
+		*this | H;
+		sequence.clear();
 		
-		//values.concat(H);
-		for (int i = 0; i < H.size(); ++i)
-			add(values[i]);
-		//std::cout << size() << "!!!!!!!!!!!!!!!!!!";
-
-
-		for (int i = position; i < prev_size + position/* + 1*/; ++i) {
-			//val = values[i];
-			values[i] = H.values[k];
-			//values[i] = values[i + prev_size];
-			//values[k + prev_size] = val;
-			//values.insert(prev_size + k, val);
-			//values.insert(i, H.values[k]);
-			k++;
+		for (int i = 0; i < H.sequence.size(); ++i) {	
+			sequence.insert(sequence.begin() + position, H.sequence.at(i));
+			position++;
 		}
-		//values[0] = H.values[0];
-		//int i = position;
-		//for (int k = 0; k < H.size(); ++k) {
-		//	//add(1);
-		//	values.emplace(i, H.values[k]);
-		//	i++;
-		//}
 	}
 
 	//void DisplayHashTable(HashTable& table)
@@ -161,55 +269,16 @@ public:
 	//}
 
 	void merge(HashTable A, HashTable B) {
-		//std::cout << bothsize << "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
-		//int indexA;
-		//int indexB;
-		//int minA;// = 999999999;
-		//int minB;// = 999999999;
-		int val;
-		int sizeA = A.size();
-		int sizeB = B.size();
-		int bothsize = sizeA + sizeB;
-		//std::cout << sizeA << sizeB << "!!!!!!!!!!!!!!!!!!!!!";
-		//sort(A.values.cbegin(), A.values.cend());
-		//sort(B.values.cbegin(), B.values.cend());
-		for (int i = 0; i < sizeA - 1; ++i) {
-			for (int j = 0; j < sizeA - i - 1; ++j) {
-				if (A.values[j] > A.values[j + 1]) {
-					val = A.values[j];
-					A.values[j] = A.values[j + 1];
-					A.values[j + 1] = val;
-				}
-			}
+		*this = A|B;
+		sequence.clear();
+		for (int i = 0; i < max(A.sequence.size(), B.sequence.size()); ++i) {
+			if(i < A.sequence.size())
+				sequence.push_back(A.sequence.at(i));
+			if (i < B.sequence.size())
+				sequence.push_back(B.sequence.at(i));
+
 		}
-
-		//DisplayHashTable(A);
-
-		for (int i = 0; i < sizeB - 1; ++i) {
-			for (int j = 0; j < sizeB - i - 1; ++j) {
-				if (B.values[j] > B.values[j + 1]) {
-					val = B.values[j];
-					B.values[j] = B.values[j + 1];
-					B.values[j + 1] = val;
-				}
-			}
-		}
-
-		//DisplayHashTable(B);
-
-		int j = 0;
-		int k = 0;
-
-		for (int i = 0; i <= bothsize; ++i) {
-			if (B.values[k] >= A.values[j] && j != sizeA) {
-				add(A.values[j]);
-				j++;
-			}
-			else if (k != sizeB) {
-				add(B.values[k]);
-				k++;
-			}
-		}
+		std::sort(sequence.begin(), sequence.end());
 	}
 
 	void excl(HashTable H)
@@ -251,7 +320,8 @@ public:
 
 	void add(int value)
 	{
-		values.insert(std::pair<int, int>(int(values.size()), value));
+		//cout << char(value + 97);
+		values.insert(std::pair<int, char>(value, char(value + 97)));
 	}
 
 
@@ -260,12 +330,12 @@ public:
 		return int(values.size());
 	}
 
-	unordered_map<int, int>::const_iterator begin()
+	unordered_map<int, char>::const_iterator begin()
 	{
 		return values.begin();
 	}
 
-	unordered_map<int, int>::const_iterator end()
+	unordered_map<int, char>::const_iterator end()
 	{
 		return values.end();
 	}
