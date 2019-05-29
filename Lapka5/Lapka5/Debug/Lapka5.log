@@ -1,13 +1,16 @@
 ﻿  Lapka5.cpp
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(342): warning C4521: "HashTable": заданы несколько конструкторов копий
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(347): warning C4521: "HashTable": заданы несколько конструкторов копий
 c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(42): warning C4018: >: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(109): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(133): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(149): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(168): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(255): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(274): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(275): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(277): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\mi\documents\github\asd\lapka5\lapka5\lapka5.cpp(14): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(104): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(128): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(144): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(163): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(253): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(262): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(263): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(265): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(280): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(293): warning C4018: >: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\hashtable.h(308): warning C4018: <: несоответствие типов со знаком и без знака
+c:\users\mi\documents\github\asd\lapka5\lapka5\lapka5.cpp(16): warning C4018: <: несоответствие типов со знаком и без знака
   Lapka5.vcxproj -> C:\Users\mi\Documents\GitHub\ASD\Lapka5\Debug\Lapka5.exe

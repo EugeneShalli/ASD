@@ -44,14 +44,9 @@ private:
 			return values.at(index);
 		}
 		throw;
-		//return NULL;
 	}
 
-	void delete_element(int index)
-	{
-		//for (int i = index; i < size() - 1; ++i)
-			//values[i] = values[i + 1];
-
+	void delete_element(int index) {
 		values.erase(index);
 	}
 
@@ -71,8 +66,8 @@ public:
 			if (i == alphabet) {
 				i = 0;
 			}
-			it = find(sequence.begin(), sequence.end(), i);
-			if (rand() % 2 && it == sequence.end() /*&& *(sequence.end()) != i*/) {
+			//it = find(sequence.begin(), sequence.end(), i);
+			if (rand() % 2 /*&& it == sequence.end() /*&& *(sequence.end()) != i*/) {
 				add(i);
 				sequence.push_back(i);
 				k++;
@@ -236,37 +231,30 @@ public:
 		}
 	}
 
-	void concat(HashTable H)
-	{
-		for (int i = 0; i < H.size(); ++i)
-			add(H[i]);
+	void change(HashTable H, int position) {
+		erase(position, position + H.sequence.size());
+		subst(H, position);
 	}
 
-	void mul(int n)
-	{
+	void concat(HashTable H) {
+		subst(H, sequence.size());
+	}
+
+	void mul(int n) {
 		for (int i = 0; i < n; ++i)
 			concat(*this);
 	}
 
 	void subst(HashTable H, int position) {
-		*this | H;
+		vector<int> copy = sequence;
+		*this = *this | H;
 		sequence.clear();
-		
+		sequence = copy;
 		for (int i = 0; i < H.sequence.size(); ++i) {	
 			sequence.insert(sequence.begin() + position, H.sequence.at(i));
 			position++;
 		}
 	}
-
-	//void DisplayHashTable(HashTable& table)
-	//{
-	//	for (int i = 0; i < table.size(); ++i)
-	//	{
-	//		std::cout.width(3);
-	//		std::cout << table[i];
-	//	}
-	//	std::cout << std::endl;
-	//}
 
 	void merge(HashTable A, HashTable B) {
 		*this = A|B;
@@ -281,40 +269,57 @@ public:
 		std::sort(sequence.begin(), sequence.end());
 	}
 
-	void excl(HashTable H)
-	{
-		int begin = 0;
-		int start = 0;
-		int finish = 0;
+	void excl(HashTable H) {
+		vector<int>::iterator it = std::search(sequence.begin(), sequence.end(), H.sequence.begin(), H.sequence.end());
+		//int i = std::distance(sequence.begin(), it);
+		//int it = goodsearch(H);
+		vector<int>::iterator tut;
 
-		while (start < size())
-		{
-			for (start = begin; start < size(); ++start)
-				if (values[start] == H[0])
-					break;
-
-			if (start < size())
-			{
-				int next = 0;
-				finish = start;
-
-				do {
-					next++;
-					finish++;
-				} while (next < H.size() && finish < size() && H[next] == values[finish]);
-
-				begin = finish;
-
-				if (next == H.size())
-					for (int i = start; i < finish; ++i)
-						delete_element(start);
+		if (it != sequence.end()) {
+		//if (it != -1) {
+			for (int i = 0; i < H.sequence.size(); ++i) {
+				tut = find(sequence.begin(), sequence.end(), H.sequence.at(i));
+				if (find(tut, sequence.end(), H.sequence.at(i)) == sequence.end()) {
+					delete_element(H.sequence.at(i));
+				}
 			}
+			//sequence.erase(it + sequence.begin(), it + sequence.begin() + H.sequence.size());
+			sequence.erase(it, it + H.sequence.size());
 		}
 	}
 	
 	void erase(int start, int end) {
-		for (int i = start; i < end; ++i)
-			delete_element(start);
+		vector<int>::iterator tut;
+		if (end > sequence.size()) {
+			end = sequence.size();
+		}
+		for (int i = start; i < end; ++i) {
+			tut = find(sequence.begin(), sequence.end(), sequence.at(i));
+			if (find(tut, sequence.end(), sequence.at(i)) == sequence.end()) {
+				delete_element(sequence.at(i));
+			}
+		}
+		//for (int i = start; i < end; ++i)
+		sequence.erase(start + sequence.begin(), end + sequence.begin());
+	}
+
+	int goodsearch(HashTable H) {
+		int k = 0;
+		for (int i = 0; i < sequence.size(); ++i) {
+			if (sequence.at(i) == H.sequence.at(k)) {
+				k++;
+				if (k == H.sequence.size()) {
+					return i - k + 1;
+				}
+			}
+			else {
+				k = 0;
+				if (sequence.at(i) == H.sequence.at(k)) {
+					k++;
+				}
+			}
+		}
+		return -1;
 	}
 
 
